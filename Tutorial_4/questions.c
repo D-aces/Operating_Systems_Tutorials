@@ -41,3 +41,11 @@ bool already_answered(char *category, int value)
     // lookup the question and see if it's already been marked as answered
     return false;
 }
+
+void update_catalogue(char *category, int value){
+	for(int i = 0; i < 12; i++){
+		if((questions[i].category == category) && (questions[i].value == value)){
+			questions[i].answered = true;
+		}
+	}
+}
