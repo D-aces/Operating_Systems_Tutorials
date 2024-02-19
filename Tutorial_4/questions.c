@@ -13,7 +13,44 @@
 // Initializes the array of questions for the game
 void initialize_game(void)
 {
+	// Initial values to be added to the struct
+	int cat_count = 0;
+	char question_answer_key[NUM_CATEGORIES][NUM_QUESTIONS][2][MAX_LEN] = {
+	{
+            {"What is the most commonly used programming language for web development?", "The answer is JavaScript."},
+            {"What does HTML stand for?", "It stands for HyperText Markup Language."},
+            {"What is the purpose of CSS in web development?", "CSS is used for styling web pages."},
+            {"What is an array in programming?", "An array is a data structure that stores a collection of elements."},
+        },
+        {
+            {"What is a sorting algorithm?", "A sorting algorithm is an algorithm that arranges elements in a specified order."},
+            {"What is the time complexity of the bubble sort algorithm?", "The time complexity of bubble sort is O(n^2)."},
+            {"What is the difference between quicksort and mergesort?", "Quicksort is an in-place sorting algorithm, while mergesort is not."},
+            {"What is a binary search?", "Binary search is a search algorithm that finds the position of a target value within a sorted array."},
+        },
+        {
+            {"What is a database?", "A database is an organized collection of structured information."},
+            {"What is SQL?", "SQL (Structured Query Language) is a language used for managing relational databases."},
+            {"What is the primary key in a database table?", "The primary key uniquely identifies each record in a database table."},
+            {"What is the difference between SQL and NoSQL databases?", "SQL databases are relational databases, while NoSQL databases are non-relational."},
+        }};
+	int value = 200;
+
     // initialize each question struct and assign it to the questions array
+     for(int i = 0; i < NUM_QUESTIONS; i++){
+	     strcpy(questions[i].category, categories[cat_count]);
+	     strcpy(questions[i].question, question_answer_key[cat_count][0][i]);
+	     strcpy(questions[i].answer, question_answer_key[cat_count][i][1]);
+	     questions[i].answered = false;
+	     questions[i].value = value;
+	     value += 200;
+	     // Assuming an equal number of questions for each category
+	     if((i + 1) % (NUM_QUESTIONS / NUM_CATEGORIES) == 0){
+		     cat_count++;
+		     value = 200;
+	     }
+     }
+    
 }
 
 // Displays each of the remaining categories and question dollar values that have not been answered
