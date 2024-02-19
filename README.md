@@ -1,3 +1,6 @@
+<hr>
+<div align="center">
+
 # Operating_Systems_Tutorials
 Operating Systems Tutorial Source Folder
 
@@ -5,6 +8,8 @@ Operating Systems Tutorial Source Folder
 
 ## Contributors
 Dmitri Rios Nadeau - 100783206 <br>
-Noah Toma - <br>
+Noah Toma - 100825559 <br>
 Rolf Jadon - <br>
 
+</div>
+<hr>

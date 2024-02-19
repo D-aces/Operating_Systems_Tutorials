@@ -20,8 +20,17 @@
 // Put global environment variables here
 
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
-void tokenize(char *input, char **tokens);
+void tokenize(char *input, char **tokens) {
+	char *token = strtok(input, " ");
+	int i = 0;
 
+	while (token != NULL) {
+		strcpy(tokens[i], token);
+		token = strtok(NULL, " ");
+		i++;
+	}
+	tokens[i] = NULL;
+}
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(player *players, int num_players);
 
