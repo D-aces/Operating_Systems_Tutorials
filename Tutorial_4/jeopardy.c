@@ -33,7 +33,7 @@ void tokenize(char *input, char **tokens) {
 }
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(player *players, int num_players){
-	for(int i = 0; i <= NUM_PLAYERS; i++){
+	for(int i = 0; i <= num_players; i++){
 		printf("Name: %s\t Score: %d\n", players[i].name, players[i].score);
 	}
 }
