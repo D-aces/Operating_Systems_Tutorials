@@ -12,13 +12,19 @@
 
 question questions[NUM_QUESTIONS];
 
+// List of 3 categories as array of strings
+static char categories[NUM_CATEGORIES][MAX_LEN] = {
+    "programming",
+    "algorithms",
+    "databases"
+};
+
 // Initializes the array of questions for the game
 void initialize_game(void)
 {
 	// Initial values to be added to the struct
 	int cat_count = 0;
 	int cat_question_count = 0;
-
 
 	char question_answer_key[NUM_CATEGORIES][NUM_QUESTIONS][2][MAX_LEN] = {
 		{
