@@ -42,7 +42,7 @@ void tokenize(char *input, char **tokens) {
 
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(player *players, int num_players){
-	for(int i = 0; i <= num_players; i++){
+	for(int i = 0; i < num_players; i++){
 		printf("Name: %s\t Score: %d\n", players[i].name, players[i].score);
 	}
 }
@@ -60,10 +60,13 @@ int main(void)
 	for(int i = 0; i < NUM_PLAYERS; i++){
 		printf("\nEnter player number %d's name\n", i+1);
 		scanf("%s", players[i].name);
+		players[i].score = 0;
 	}
 
 	// Display the game introduction and initialize the questions
 	initialize_game();
+
+	int question_count = NUM_QUESTIONS;
 
 	// Perform an infinite loop getting command input from users until game ends
 	while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
@@ -71,52 +74,54 @@ int main(void)
 
 		// Initialize token
 		char *token[4] = {0};
-		
+
 		// Execute the game until all questions are answered
-		int question_counter = sizeof(questions);
 		bool answer;
 		char *category;
 		int question_value;
 		char response[BUFFER_LEN] = {0};
 		category = (char*) calloc(BUFFER_LEN, sizeof(char));
+		for(int i = 0; i < NUM_PLAYERS && question_count > 0; i++){
+			printf("\n---------------------------------\n");
+			printf("It is %s's turn \nMake your selection (Format: Category dollar amount [Ex. Technology 100])", players[i].name);
+			display_categories();
+			printf("\n");
+			scanf("%s %d", category, &question_value);
 
-		if(question_counter > 0){
-			for(int i = 0; i <= 4; i++){
-				printf("\n---------------------------------\n");
-				printf("It is %s's turn \nMake your selection (Format: Category dollar amount [Ex. Technology 100])", players[i].name);
-				display_categories();
-				printf("\n");
-				scanf("%s %d", category, &question_value);
+			if(valid_category(category, question_value) == false){
+				printf("Not a valid input\n");
+				i--;
+			}
+			else if(already_answered(category, question_value) == false){	
+				display_question(category, question_value);
 
-				if(already_answered(category, question_value)){
-					printf("!!! Question has already been selected, please enter another choice !!!\n");
+				scanf(" %[^\n]", response);
+
+
+				tokenize(response, token);
+				answer = valid_answer(category, question_value, token[2]);
+
+				printf("\nYour Response Was: %s\n", token[2]);
+
+				if(answer){
+					printf("Answer is correct, please chose another question\n");
+					players[i].score += question_value;
 					i--;
 				}
-				else {
-					display_question(category, question_value);
-					
-					scanf(" %[^\n]", response);
-					
-					tokenize(response, token);
-					answer = valid_answer(category, question_value, token[2]);
-					
-					printf("\nYour Response Was: %s\n", token[2]);
-				
-					printf("%d\n", answer);	
-					if(answer){
-						printf("Answer is correct, please chose another question\n");
-						players[i].score += question_value;
-						i--;
-					}
-					else{
-						printf("Buzz, that is incorrect \n");
-					}
-					update_catalogue(category, question_value);
-					question_counter--;	
+				else{
+					printf("Buzz, that is incorrect \n");
+					display_answer(category, question_value);
 				}
+				update_catalogue(category, question_value);
+				printf("Question_counter: %d", question_count);	
+				question_count--;
+			}  
+			else {
+				printf("!!! Question has already been selected, please enter another choice !!!\n");	
+				i--;
 			}
 		}
-		else {
+		if(question_count <= 0) {
 			free(category);
 			// Display the final results and exit
 			show_results(players, NUM_PLAYERS);
