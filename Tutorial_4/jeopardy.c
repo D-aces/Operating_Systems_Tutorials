@@ -42,9 +42,29 @@ void tokenize(char *input, char **tokens) {
 
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(player *players, int num_players){
-	for(int i = 0; i < num_players; i++){
-		printf("Name: %s\t Score: %d\n", players[i].name, players[i].score);
-	}
+player *highest[num_players];
+    // Initialize the array with pointers to players
+    for (int i = 0; i < num_players; i++) {
+        highest[i] = &players[i];
+    }
+
+    // Sort the array of pointers based on player scores in descending order
+    for (int i = 0; i < num_players - 1; i++) {
+        for (int j = i + 1; j < num_players; j++) {
+            if (highest[j]->score > highest[i]->score) {
+                // Swap pointers
+                player *temp = highest[i];
+                highest[i] = highest[j];
+                highest[j] = temp;
+            }
+        }
+    }
+
+    // Display the sorted results
+    for (int i = 0; i < num_players; i++) {
+        printf("\n%d\t%s\t%d", i + 1, highest[i]->name, highest[i]->score);
+    }
+    printf("\n");
 }
 
 
@@ -82,6 +102,11 @@ int main(void)
 		char response[BUFFER_LEN] = {0};
 		category = (char*) calloc(BUFFER_LEN, sizeof(char));
 		for(int i = 0; i < NUM_PLAYERS && question_count > 0; i++){
+			if(player_exists(players, NUM_PLAYERS, players[i].name) == false){
+				printf("Player %s not found", players[i].name);
+				break;
+			}
+
 			printf("\n---------------------------------\n");
 			printf("It is %s's turn \nMake your selection (Format: Category dollar amount [Ex. Technology 100])", players[i].name);
 			display_categories();
@@ -97,8 +122,14 @@ int main(void)
 
 				scanf(" %[^\n]", response);
 
-
 				tokenize(response, token);
+				if(token[2] == NULL)
+				{
+					printf("Enter the answer in the format: 'what is' or 'who is'");
+					break;
+					i--;
+				}
+
 				answer = valid_answer(category, question_value, token[2]);
 
 				printf("\nYour Response Was: %s\n", token[2]);
@@ -113,7 +144,6 @@ int main(void)
 					display_answer(category, question_value);
 				}
 				update_catalogue(category, question_value);
-				printf("Question_counter: %d", question_count);	
 				question_count--;
 			}  
 			else {
