@@ -29,21 +29,21 @@ void initialize_game(void)
 	char question_answer_key[NUM_CATEGORIES][NUM_QUESTIONS][2][MAX_LEN] = {
 		{
 			{"What is the most commonly used programming language for web development?", "JavaScript"},
-			{"What does HTML stand for?", "It stands for HyperText Markup Language."},
-			{"What is the purpose of CSS in web development?", "styling"},
-			{"What is an array in programming?", "An array is a data structure that stores a collection of elements."},
+			{"What does HTML stand for?", "HyperTextMarkupLanguage"},
+			{"What is the purpose of CSS in web development?", "Styling"},
+			{"What is an array in programming?", "DataStructure"},
 		},
 		{
-			{"What is a sorting algorithm?", "A sorting algorithm is an algorithm that arranges elements in a specified order."},
-			{"What is the time complexity of the bubble sort algorithm?", "The time complexity of bubble sort is O(n^2)."},
-			{"What is the difference between quicksort and mergesort?", "Quicksort is an in-place sorting algorithm, while mergesort is not."},
-			{"What is a binary search?", "Binary search is a search algorithm that finds the position of a target value within a sorted array."},
+			{"What is a sorting algorithm?", "AnAlogrithmThatArrangesElementsInASpecifiedOrder"},
+			{"What is the time complexity of the bubble sort algorithm?", "O(n^2)"},
+			{"What is the difference between quicksort and mergesort?", "QuicksortIsAnIn-placeSortingAlgorithm,WhileMergesortIsNot."},
+			{"What is a binary search?", "ASearchAlgorithmThatFindsThePositionOfATargetValueWithinASortedArray"},
 		},
 		{
-			{"What is a database?", "A database is an organized collection of structured information."},
-			{"What is SQL?", "SQL (Structured Query Language) is a language used for managing relational databases."},
-			{"What is the primary key in a database table?", "The primary key uniquely identifies each record in a database table."},
-			{"What is the difference between SQL and NoSQL databases?", "SQL databases are relational databases, while NoSQL databases are non-relational."},
+			{"What is a database?", "ACollectionOfStructuredInformation"},
+			{"What is SQL?", "ALanguageUsedForManagingRelationalDatabases"},
+			{"What is the primary key in a database table?", "UniquelyIdentifiesEachRecordInADatabaseTable"},
+			{"What is the difference between SQL and NoSQL databases?", "SQLDatabasesAreRelationalDatabases,WhileNoSQLDatabasesAreNon-relational"},
 		}};
 	int value = 200;
 
