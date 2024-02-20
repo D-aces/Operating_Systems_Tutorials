@@ -10,6 +10,8 @@
 #include <string.h>
 #include "questions.h"
 
+question questions[NUM_QUESTIONS];
+
 // Initializes the array of questions for the game
 void initialize_game(void)
 {
