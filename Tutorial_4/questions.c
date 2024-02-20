@@ -19,9 +19,10 @@ void initialize_game(void)
 	int cat_count = 0;
 	int cat_question_count = 0;
 
+
 	char question_answer_key[NUM_CATEGORIES][NUM_QUESTIONS][2][MAX_LEN] = {
 		{
-			{"What is the most commonly used programming language for web development?", "The answer is JavaScript."},
+			{"What is the most commonly used programming language for web development?", "JavaScript"},
 			{"What does HTML stand for?", "It stands for HyperText Markup Language."},
 			{"What is the purpose of CSS in web development?", "styling"},
 			{"What is an array in programming?", "An array is a data structure that stores a collection of elements."},
@@ -68,6 +69,14 @@ void display_question(char *category, int value)
 	for (int i = 0; i < NUM_QUESTIONS; i++) {
 		if (strcmp(questions[i].category, category) == 0 && (questions[i].value == value)) {
 			printf("\nFor %d points\n\tQuestion: %s\n\n", questions[i].value, questions[i].question); 
+		}
+	}
+}
+
+void display_answer(char *category, int value){
+	for (int i = 0; i < NUM_QUESTIONS; i++) {
+		if (strcmp(questions[i].category, category) == 0 && questions[i].value == value) {
+			printf("\nThe answer we were looking for was: \n\t%s\n\n", questions[i].answer); 
 		}
 	}
 }
@@ -141,6 +150,15 @@ void update_catalogue(char *category, int value){
 	}
 }
 
+
+bool valid_category(char *category, int value){
+	for (int i = 0; i < NUM_QUESTIONS; i++) {
+		if (strcmp(questions[i].category, category) == 0 && questions[i].value == value) {
+			return true;
+		}
+    }
+	return false;
+}
 
 // Displays each of the remaining categories and question dollar values that have not been answered
 void display_categories(void)
