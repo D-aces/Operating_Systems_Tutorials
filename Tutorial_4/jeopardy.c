@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "questions.h"
 #include "players.h"
+#include "questions.h"
 #include "jeopardy.h"
 
 // Put macros or constants here using #define

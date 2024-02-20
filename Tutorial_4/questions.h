@@ -16,13 +16,6 @@
 // questions.c, this can be accessed in questions.c
 #define NUM_QUESTIONS 12
 
-// List of 3 categories as array of strings
-static char categories[NUM_CATEGORIES][MAX_LEN] = {
-    "programming", 
-    "algorithms", 
-    "databases"
-};
-
 // Questions struct for each question
 typedef struct {
     char category[MAX_LEN];
