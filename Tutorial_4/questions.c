@@ -23,7 +23,7 @@ void initialize_game(void)
 		{
 			{"What is the most commonly used programming language for web development?", "The answer is JavaScript."},
 			{"What does HTML stand for?", "It stands for HyperText Markup Language."},
-			{"What is the purpose of CSS in web development?", "CSS is used for styling web pages."},
+			{"What is the purpose of CSS in web development?", "styling"},
 			{"What is an array in programming?", "An array is a data structure that stores a collection of elements."},
 		},
 		{
@@ -77,7 +77,7 @@ bool valid_answer(char *category, int value, char *answer)
 {
 	// Look into string comparison functions
 	for(int i = 0; i < NUM_QUESTIONS; i++){
-		if(questions[i].category == category && questions[i].value == value){
+		if(strcmp(questions[i].category, category) == 0 && questions[i].value == value){
 			if(strcmp(questions[i].answer, answer) == 0){
 				return true;
 			}
@@ -161,10 +161,10 @@ void display_categories(void)
 
 		for(int x = 0; x < cat_question_count; x++){
 			if(questions[cat_index].answered){
-				printf("%-15s", "---");
+				printf("-%-15s", "---");
 			}
 			else{
-				printf("%-15d", questions[x].value);
+				printf("$%-15d", questions[x].value);
 			}
 			value += 200;
 			cat_index++;

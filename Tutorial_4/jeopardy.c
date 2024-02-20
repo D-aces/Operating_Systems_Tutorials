@@ -21,16 +21,25 @@
 
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
 void tokenize(char *input, char **tokens) {
-	char *token = strtok(input, " ");
+	const char delim[2] = " ";
+	char *token = strtok(input, delim);
 	int i = 0;
 
 	while (token != NULL) {
+		tokens[i] = malloc(strlen(token) + 1);
+		if (tokens[i] == NULL) {
+			// Handle allocation failure if necessary
+			fprintf(stderr, "Failed to allocate memory for token\n");
+			exit(EXIT_FAILURE);
+		}
+
 		strcpy(tokens[i], token);
-		token = strtok(NULL, " ");
+		token = strtok(NULL, delim);
 		i++;
 	}
 	tokens[i] = NULL;
 }
+
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(player *players, int num_players){
 	for(int i = 0; i <= num_players; i++){
@@ -61,7 +70,7 @@ int main(void)
 	{
 
 		// Initialize token
-		char *token[4];
+		char *token[4] = {0};
 		
 		// Execute the game until all questions are answered
 		int question_counter = sizeof(questions);
@@ -80,15 +89,20 @@ int main(void)
 				scanf("%s %d", category, &question_value);
 
 				if(already_answered(category, question_value)){
-					printf("Question has already been selected, please enter another choice");
+					printf("!!! Question has already been selected, please enter another choice !!!\n");
 					i--;
 				}
 				else {
 					display_question(category, question_value);
-					// scanf("%s", response);
-
+					
+					scanf(" %[^\n]", response);
+					
 					tokenize(response, token);
 					answer = valid_answer(category, question_value, token[2]);
+					
+					printf("\nYour Response Was: %s\n", token[2]);
+				
+					printf("%d\n", answer);	
 					if(answer){
 						printf("Answer is correct, please chose another question\n");
 						players[i].score += question_value;
