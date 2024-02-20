@@ -49,12 +49,9 @@ int main(void)
 
 	// Prompt for players names and init each players in the array
 	for(int i = 0; i < NUM_PLAYERS; i++){
-		printf("Enter player number %d's name\n", i+1);
+		printf("\nEnter player number %d's name\n", i+1);
 		scanf("%s", players[i].name);
-		printf("\n");
 	}
-
-	printf("---------------------------------\n");
 
 	// Display the game introduction and initialize the questions
 	initialize_game();
@@ -76,6 +73,7 @@ int main(void)
 
 		if(question_counter > 0){
 			for(int i = 0; i <= 4; i++){
+				printf("\n---------------------------------\n");
 				printf("It is %s's turn \nMake your selection (Format: Category dollar amount [Ex. Technology 100])", players[i].name);
 				display_categories();
 				printf("\n");
@@ -87,7 +85,7 @@ int main(void)
 				}
 				else {
 					display_question(category, question_value);
-					scanf("%s", response);
+					// scanf("%s", response);
 
 					tokenize(response, token);
 					answer = valid_answer(category, question_value, token[2]);
