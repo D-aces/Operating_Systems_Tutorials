@@ -5,10 +5,10 @@
 Operating Systems Tutorial Source Folder
 
 ## [Tutorial 4 - Jeopardy](/Tutorial_4)
-Status: ✅ Near Completion
+Status: Complete ✅
 
 ## [Tutorial 5 - POSIX Threads](/Tutorial_5)
-Status: ✍️ In Progress
+Status: Complete ✅
 
 ## Contributors
 Dmitri Rios Nadeau - 100783206 <br>
