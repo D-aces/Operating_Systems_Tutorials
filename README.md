@@ -1,8 +1,7 @@
 <hr>
 <div align="center">
 
-# Operating_Systems_Tutorials
-Operating Systems Tutorial Source Folder
+# Operating_Systems_Tutorials - Source Folder
 
 ## [Tutorial 4 - Jeopardy](/Tutorial_4)
 Status: Complete ✅
@@ -11,9 +10,12 @@ Status: Complete ✅
 Status: Complete ✅
 
 ## Contributors
-Dmitri Rios Nadeau - 100783206 <br>
-Noah Toma - 100825559 <br>
-Rolf Jadon - 100845721 <br>
+
+| Name | Student No. |
+|:---:|:---:|
+| Dmitri Rios Nadeau | 100783206 |
+| Noah Toma | 100825559 |
+| Rolf Jadon | 100845721 |
 
 </div>
 <hr>
