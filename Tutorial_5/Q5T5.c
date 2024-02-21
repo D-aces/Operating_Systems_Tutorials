@@ -51,10 +51,18 @@ void *save_bellcurve(void *data) {
     return NULL; // Exit
 }
 
-void write_bellcurve() // Writes bellcurve grades to file
-{
+void write_bellcurve(int *grades) {
     FILE *file = fopen("bellcurve.txt", "w");
-    fprintf(file, "%.2f\n", total_bellcurve / 10);
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    for (int i = 0; i < 10; i++) {
+        double bellcurve_grade = grades[i] * 1.50;
+        fprintf(file, "%.2f\n", bellcurve_grade);
+    }
+
     fclose(file);
 }
 
@@ -73,19 +81,23 @@ int main() // Main function
     pthread_join(tids[0], NULL);
 
     pthread_barrier_destroy(&barrier);
-    pthread_barrier_init(&barrier, NULL, 11); // Initialize barrier with count 11
 
     for(int i = 0; i < 10; i++) {
-        pthread_create(&tids[i + 1], NULL, save_bellcurve, (void *)(grades + i));
+        printf("%d ", grades[i]);
     }
+    printf("\n");
 
-    pthread_barrier_wait(&barrier);
+    for(int i = 0; i < 10; i++) {
+    	pthread_create(&tids[i + 1], NULL,  save_bellcurve, (void *)&grades[i]);
+    }
+    // simulates barrier
+    for(int i = 0; i < 10; i++) {
+        pthread_join(tids[i + 1], NULL);
+    }
 
     printf("Average: %.2f\n", total_grade / 10);
     printf("Bellcurve Average: %.2f\n", total_bellcurve / 10);
-    write_bellcurve();
-
-    pthread_barrier_destroy(&barrier);
-
+    write_bellcurve(grades);
+    
     return 0;
 }
