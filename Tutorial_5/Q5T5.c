@@ -27,13 +27,13 @@ void *read_grades(void *data) {
         }
     }
     fclose(file);
- 
     pthread_barrier_wait(&barrier);    
     printf("Exiting read_grades thread.\n");
     return NULL;
 }
 
 void *save_bellcurve(void *data) {
+pthread_barrier_wait(&barrier);  
     int *grade = (int *)data;
     double dgrade = (double) *grade;
     pthread_mutex_lock(&total_bellcurve_lock);
@@ -56,14 +56,13 @@ void write_bellcurve() {
 int main() {
     pthread_mutex_init(&total_bellcurve_lock, NULL);
     pthread_mutex_init(&total_grade_lock, NULL);
-    pthread_barrier_init(&barrier, NULL, 11); // Initialize barrier with count 11
+    pthread_barrier_init(&barrier, NULL, 1); // Initialize barrier with count 1 thread
 
     int grades[10];
     memset(grades, 0, sizeof(int) * 10);
 
     pthread_t tids[11];
     pthread_create(&tids[0], NULL, read_grades, (void *)grades);
-
 	
     // Wait for the thread to finish reading grades
     pthread_join(tids[0], NULL);
