@@ -1,2 +1,8 @@
+# Ignore .o files
 *.o
+
+# Ignore .swp files
 *.swp
+
+# Ignore .exe files
+*.exe
