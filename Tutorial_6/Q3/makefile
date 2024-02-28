@@ -1,7 +1,7 @@
-# Makefile for Question #1 of Tutorial #6
+# Makefile for Question #3 of Tutorial #6
 
-q1: Q1T6.c
-	gcc Q1T6.c -o q1
+q3: Q3T6.c
+	gcc -Wall Q3T6.c -o q3
 
 clean:
-	rm q1 -f *.txt
+	rm q3 -f *.txt
