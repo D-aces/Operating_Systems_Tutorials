@@ -7,7 +7,7 @@
 #include <unistd.h> // for fork
 #include <sys/wait.h> // for wait
 
-#define NUM_PROC 5
+#define NUM_PROC 2
 
 int main(void)
 {
