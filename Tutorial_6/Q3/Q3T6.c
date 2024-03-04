@@ -14,31 +14,24 @@ struct ThreadData {
 };
 
 void* factorial(void *arg) {
-	struct ThreadData *data = (struct ThreadData *)arg;
-	int fact = 1;
+    struct ThreadData *data = (struct ThreadData *)arg;
+    int fact = 1;
 
-	for (int i = 1; i <= data->number; i++) {
-    		fact *= i;
-	}
+    for (int i = 1; i <= data->number; i++) {
+        fact *= i;
+    }
 
-	int prev_sum = 0;
-	if (data->index > 0) {
-	    	sem_wait(&semaphores[data->index - 1]);
-    		prev_sum = moving_sum[data->index - 1];
-    		sem_post(&semaphores[data->index - 1]);
-	}
+    int prev_sum = 0;
+    if (data->index > 0) {
+        sem_wait(&semaphores[data->index - 1]);
+        prev_sum = moving_sum[data->index - 1];
+    }
 
-	while (prev_sum <= 0) {
-    		sem_wait(&semaphores[data->index - 1]);
-    		prev_sum = moving_sum[data->index - 1];
-    		sem_post(&semaphores[data->index - 1]);
-	}
+    sem_wait(&semaphores[data->index]);
+    moving_sum[data->index] = prev_sum + fact;
+    sem_post(&semaphores[data->index]);
 
-	sem_wait(&semaphores[data->index]);
-	moving_sum[data->index] = prev_sum + fact;
-	sem_post(&semaphores[data->index]);
-
-	pthread_exit(NULL);
+    pthread_exit(NULL);
 }
 
 int main() {
