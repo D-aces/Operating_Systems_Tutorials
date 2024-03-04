@@ -94,10 +94,10 @@ int main()
     pthread_join(producer_thread, NULL);//Join the producer thread
     pthread_join(consumer_thread, NULL);//Join the consumer thread
 
-    printf("Contents of buffer after consumption:\n");//Print the contents of the buffer
+    printf("Contents of buffer after consumption:\n[ ");//Print the contents of the buffer
     for (int i = 0; i < BUFFER_SIZE; ++i)//Iterate through the buffer
         printf("%d ", buffer[i]);//Print the number
-    printf("\n");//Print a newline
+    printf("]\n");//Print a newline
 
     sem_destroy(&empty);//Destroy the empty semaphore
     sem_destroy(&full);//Destroy the full semaphore
