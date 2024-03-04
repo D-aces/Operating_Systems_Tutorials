@@ -4,4 +4,4 @@ q3: Q3T6.c
 	gcc -Wall Q3T6.c -o q3
 
 clean:
-	rm q3 -f *.txt
+	rm q3
