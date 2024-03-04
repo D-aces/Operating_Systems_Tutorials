@@ -1,6 +1,6 @@
 //Question #4 of Tutorial 6
 
-/* Libraries */
+/* Headers */
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -103,5 +103,5 @@ int main()
     sem_destroy(&full);//Destroy the full semaphore
     pthread_mutex_destroy(&mutex);//Destroy the mutex
 
-    return 0;//Return 0
+    return 0;//Exit
 }
