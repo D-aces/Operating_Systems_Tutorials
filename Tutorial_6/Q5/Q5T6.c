@@ -28,6 +28,13 @@ int main() {
     pthread_t tids[NUMBERS_COUNT];
     sem_init(&semaphore, 0, 1);
 
+    int numbers[NUMBERS_COUNT];
+
+    printf("Enter %d numbers:\n", NUMBERS_COUNT);
+    for (int i = 0; i < NUMBERS_COUNT; i++) {
+        scanf("%d", &numbers[i]);
+    }
+
     // Fork process
     pid_t pid = fork();
 
@@ -42,7 +49,6 @@ int main() {
         	}
 
         // Write numbers to file
-        int numbers[] = {5, 4, 3, 2, 1};
         for (int i = 0; i < NUMBERS_COUNT; i++) {
             fprintf(file, "%d\n", numbers[i]);
         }
@@ -63,7 +69,6 @@ int main() {
             exit(EXIT_FAILURE);
         }
 
-        int numbers[NUMBERS_COUNT];
         for (int i = 0; i < NUMBERS_COUNT; i++) {
             fscanf(file, "%d", &numbers[i]);
         }
