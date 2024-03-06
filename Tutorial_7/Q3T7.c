@@ -6,7 +6,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#define PROCESS "/process"
+#define PROCESS "./process"
 
 int main(void){	
 	pid_t pid;
@@ -16,8 +16,9 @@ int main(void){
 		return -1;
 	}
 	if(pid == 0){
-		exec(PROCESS, NULL);
+		execv(PROCESS,  NULL);
 		sleep(5);
+		kill(pid, SIGINT);
 	}
 	else{
 		wait(NULL);
