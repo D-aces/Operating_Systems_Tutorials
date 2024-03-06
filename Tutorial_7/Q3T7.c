@@ -16,12 +16,13 @@ int main(void){
 		return -1;
 	}
 	if(pid == 0){
-		execv(PROCESS,  NULL);
+		
+		execl(PROCESS, PROCESS,  NULL);
 		sleep(5);
 		kill(pid, SIGINT);
 	}
 	else{
-		wait(NULL);
+		wait(NULL);	
 	}
 
 	return EXIT_SUCCESS;
