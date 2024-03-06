@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+
 typedef struct {
 	char name[256];
 	int priority;
@@ -24,6 +25,7 @@ typedef struct Node {
 void push(proc process, queue** head) {
 
 	// Logic to add each process to the linked list (queue).
+
 	queue* new_node = (queue*)malloc(sizeof(queue));
 	if (new_node == NULL) {
 		printf("Memory allocation failed.");
@@ -70,4 +72,3 @@ int main()
 	
 	return 0;
 }
-
