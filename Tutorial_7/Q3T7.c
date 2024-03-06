@@ -9,8 +9,6 @@
 #define PROCESS "./process"
 
 void sigint_handler(int sig) {
-	printf("\033[1;31mChild process received SIGINT signal, terminating...\n");
-	printf("\033[0m"); // Reset color
 	exit(EXIT_SUCCESS);
 }
 
