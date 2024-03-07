@@ -1,1 +1,6 @@
-wdjoifhoehfohw
+//Ligma
+
+void main()
+{
+	printf("Ligma");
+}
