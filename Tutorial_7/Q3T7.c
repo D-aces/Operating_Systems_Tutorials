@@ -8,10 +8,13 @@
 #include <sys/wait.h>
 #define PROCESS "./process"
 
+<<<<<<< HEAD
 void sigint_handler(int sig) {
 	exit(EXIT_SUCCESS);
 }
 
+=======
+>>>>>>> Q3_to_Q5
 int main(void) {
 	pid_t pid;
 
@@ -24,7 +27,6 @@ int main(void) {
 
 	if (pid == 0) {
 		// Child process
-		signal(SIGINT, sigint_handler); // Register SIGINT handler
 		execl(PROCESS, PROCESS, NULL); // Executing the specified command
 		perror("execl"); // exec only returns if there is an error
 		return EXIT_FAILURE; // If execl fails
