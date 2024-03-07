@@ -8,13 +8,6 @@
 #include <sys/wait.h>
 #define PROCESS "./process"
 
-<<<<<<< HEAD
-void sigint_handler(int sig) {
-	exit(EXIT_SUCCESS);
-}
-
-=======
->>>>>>> Q3_to_Q5
 int main(void) {
 	pid_t pid;
 
