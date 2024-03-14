@@ -1,4 +1,4 @@
-#define _XOPEN_SOURCE 700 // required for barriers to work
+
 
 #include <stddef.h>
 #include <stdlib.h>

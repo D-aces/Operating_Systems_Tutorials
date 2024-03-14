@@ -1,4 +1,4 @@
-#define _XOPEN_SOURCE 700 // required for barriers to work
+
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -10,6 +10,10 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+/*  
+ * AUTHORS: Dmitri Rios Nadeau, Noah Toma, Rolf-Jaden Sibal
+ * Tutorial 7, Question 5
+ */
 
 typedef struct {
 	char name[256];
@@ -25,7 +29,7 @@ typedef struct Node {
 
 void push(proc new_process, queue** head) {
 	queue *current = *head;
-	
+
 	// If the list is empty, make the new node the head
 	if (current == NULL) {
 		*head = (queue*)malloc(sizeof(queue));
@@ -131,10 +135,11 @@ void read_file(queue **head){
 		proc new_process;
 		new_process.pid = init_pid;
 		sscanf(line, "%[^,],%d,%d", new_process.name, &new_process.priority, &new_process.runtime);
-		if(new_process.priority == 0){
+		if(new_process.priority == 0){ // Adds priority 0 processes to the queue first
 			push(new_process, head);
-		} else {
-			hold_lp_process = (proc *)realloc(hold_lp_process, (hold_counter + 1) * sizeof(proc));			hold_lp_process[hold_counter] = new_process;
+		} else { // Stores lower all other priority process in a dynamic array of processes to be added after
+			hold_lp_process = (proc *)realloc(hold_lp_process, (hold_counter + 1) * sizeof(proc));			
+			hold_lp_process[hold_counter] = new_process;
 			hold_counter++;
 		}
 	}
@@ -151,18 +156,49 @@ void read_file(queue **head){
 }
 
 int main()
-{	
+{
+	int status;
+	pid_t pid;	
 	queue *head = NULL;
 
+
+
 	// read the process from the file and add them to the linked list	
+
 	read_file(&head);
 
+
+
 	// print the new list, but using pop
-	proc current_process;
-	while (head != NULL) {
-		current_process = pop(&head);
-		print_process(&current_process);
+
+	queue *current = head;
+
+	while (head != NULL){	
+		proc process = current->process;
+		if(process.priority == 0){ // Checks if current process priority is 0	
+			pid = fork(); // Create a child process 			
+			process.pid = pid; // and set the pid for the process struct
+			if(pid < 0){ // error check
+				perror("fork()");
+				return EXIT_FAILURE;
+			}
+			if(pid == 0){ 
+				execl(process.name, process.name, NULL); //  if it's p0 it executes process
+				delete_name(process.name, &head); // then removes process struct
+			}
+			if(pid > 0){
+				sleep(process.runtime); // Allow child process to start
+				if (kill(pid, SIGKILL) != 0) { // Sending SIGKILL to the child process
+					perror("kill");
+					return EXIT_FAILURE;
+
+				}
+				if(waitpid(pid, &status, 0) != 0){
+					print_process(&process);
+				}
+			}
+		}
+		current = current->next;
 	}
-	
 	return 0;
 }

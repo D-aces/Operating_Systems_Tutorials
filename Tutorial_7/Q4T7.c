@@ -36,7 +36,7 @@ int main(void) {
 			perror("kill");
 			return EXIT_FAILURE;
 		}
-		if(waitpid(pid, &status, WUNTRACED) != 0){// Wait for child process to terminate
+		if(waitpid(pid, &status, 0) != 0){// Wait for child process to terminate
 			return EXIT_SUCCESS;
 		}
 	}
