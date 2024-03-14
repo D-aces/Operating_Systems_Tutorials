@@ -6,3 +6,6 @@
 
 # Ignore .exe files
 *.exe
+
+# Ignore .vscode files
+*/.vscode/
