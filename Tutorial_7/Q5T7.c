@@ -97,8 +97,6 @@ proc* delete_pid(int pid, queue** head) {
 int main()
 {
 	int init_pid = 0;
-	proc *hold_lp_process;
-	int hold_counter = 0;
 	FILE *file = fopen("processes_q5.txt", "r");
 
 	if (file == NULL) {
@@ -109,13 +107,6 @@ int main()
 	queue *head = NULL;
 	char line[256];
 	
-	// Allocate memory
-	hold_lp_process = malloc(sizeof(proc) * MAX_PROCESS);
-	if (hold_lp_process == NULL) {
-		printf("Memory allocation failed.\n");
-		fclose(file);
-		return 1;
-	}
 
 	// Read file and push priority 0 processes to the struct
 	while (fgets(line, sizeof(line), file)) {
@@ -123,26 +114,10 @@ int main()
 		new_process.pid = init_pid;
 		sscanf(line, "%[^,],%d,%d", new_process.name, &new_process.priority, &new_process.runtime);
 
-		if (new_process.priority > 0) { // Hold the non 0 priority processes in a dynamic array 
-			if (hold_counter < MAX_PROCESS) {
-				hold_lp_process[hold_counter] = new_process;
-				hold_counter++;
-			} else { 
-				printf("Maximum number of processes exceeded.\n");
-				break;
-			}
-		} else {
-
-			push(new_process, &head);
-		}
+		push(new_process, &head);
+		
 	}
 
-	// Add all the held processes to struct
-	if (hold_counter > 0) {
-		for(int i = 0; i < hold_counter; i++){
-			push(hold_lp_process[i], &head);
-		}
-	}
 	// After all processes have been added to linked list, iterate through and print
 	// name, priority, pid, runtime of each process 
 	queue* current = head;
