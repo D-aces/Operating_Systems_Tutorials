@@ -161,44 +161,60 @@ int main()
 	pid_t pid;	
 	queue *head = NULL;
 
-
-
-	// read the process from the file and add them to the linked list	
-
+	// Read the processes from the file and add them to the linked list
 	read_file(&head);
 
-
-
-	// print the new list, but using pop
-
-	queue *current = head;
-
-	while (head != NULL){	
-		proc process = current->process;
-		if(process.priority == 0){ // Checks if current process priority is 0	
-			pid = fork(); // Create a child process 			
-			process.pid = pid; // and set the pid for the process struct
-			if(pid < 0){ // error check
-				perror("fork()");
-				return EXIT_FAILURE;
-			}
-			if(pid == 0){ 
-				execl(process.name, process.name, NULL); //  if it's p0 it executes process
-				delete_name(process.name, &head); // then removes process struct
-			}
-			if(pid > 0){
-				sleep(process.runtime); // Allow child process to start
-				if (kill(pid, SIGKILL) != 0) { // Sending SIGKILL to the child process
-					perror("kill");
-					return EXIT_FAILURE;
-
-				}
-				if(waitpid(pid, &status, 0) != 0){
-					print_process(&process);
-				}
-			}
+	// Perform the 0th priority processes
+	while (head != NULL && head->process.priority == 0) {
+		proc process = pop(&head);
+		pid = fork(); // Create a child process
+		if (pid < 0) { // error check
+			perror("fork()");
+			return EXIT_FAILURE;
 		}
-		current = current->next;
+		if (pid == 0) { 
+			// Child process
+			execl(process.name, process.name, NULL); // Execute the process
+								 // If execl fails, exit child process
+			exit(EXIT_FAILURE); // Exit child process
+		}
+		// Parent process
+		process.pid = pid; // Set the PID for the process struct
+		sleep(process.runtime); // Allow child process to start
+		if (kill(pid, SIGINT) != 0) { // Sending SIGINT to the child process
+			perror("kill");
+			return EXIT_FAILURE;
+		}
+		if (waitpid(pid, &status, 0) != 0) {
+			print_process(&process);
+		}
 	}
+	// Perform the other priority processes
+	while (head != NULL) {
+		proc process = pop(&head);
+		pid = fork(); // Create a child process
+		if (pid < 0) { // error check
+			perror("fork()");
+			return EXIT_FAILURE;
+		}
+		if (pid == 0) {
+			// Child process
+			execl(process.name, process.name, NULL); // Execute the process
+								 // If execl fails, delete the process struct
+			delete_name(process.name, &head);
+			exit(EXIT_FAILURE); // Exit child process
+		}
+		// Parent process
+		process.pid = pid; // Set the PID for the process struct
+		sleep(process.runtime); // Allow child process to start
+		if (kill(pid, SIGINT) != 0) { // Sending SIGINT to the child process
+			perror("kill");
+			return EXIT_FAILURE;
+		}
+		if (waitpid(pid, &status, 0) != 0) {
+			print_process(&process);
+		}
+	}
+
 	return 0;
 }
