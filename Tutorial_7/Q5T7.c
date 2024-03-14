@@ -1,6 +1,3 @@
-
-
-#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -166,7 +163,7 @@ int main()
 
 	// Perform the 0th priority processes
 	while (head != NULL && head->process.priority == 0) {
-		proc process = pop(&head);
+		proc process = *delete_name(head->process.name, &head);
 		pid = fork(); // Create a child process
 		if (pid < 0) { // error check
 			perror("fork()");
@@ -188,7 +185,7 @@ int main()
 		if (waitpid(pid, &status, 0) != 0) {
 			print_process(&process);
 		}
-	}
+	}	
 	// Perform the other priority processes
 	while (head != NULL) {
 		proc process = pop(&head);
