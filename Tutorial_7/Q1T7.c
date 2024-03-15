@@ -1,4 +1,4 @@
-
+#define _XOPEN_SOURCE 700 // required for barriers to work
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -22,52 +22,76 @@ typedef struct Node {
 	struct Node* next;
 } queue;
 
-void push(proc process, queue** head) {
-
-	// Logic to add each process to the linked list (queue).
-
-	queue* new_node = (queue*)malloc(sizeof(queue));
-	if (new_node == NULL) {
-		printf("Memory allocation failed.");
+void push(proc new_process, queue** head) {
+	queue *current = *head;
+	
+	// If the list is empty, make the new node the head
+	if (current == NULL) {
+		*head = (queue*)malloc(sizeof(queue));
+		(*head)->process = new_process;
+		(*head)->next = NULL;
 		return;
 	}
-	
-	new_node->process = process;
-	new_node->next = *head;
-	*head = new_node;
-};
 
-int main()
-{
+	// Otherwise, traverse to the end of the list
+	while (current->next != NULL) {
+		current = current->next;
+	}
+
+	// Allocate memory for the new node and insert it at the end
+	current->next = (queue*)malloc(sizeof(queue));
+	current->next->process = new_process;
+	current->next->next = NULL;
+}
+
+void print_process(proc *process) {
+	printf("Name: %s, Priority: %d, PID: %d, Runtime: %d\n", process->name,
+			process->priority, process->pid, process->runtime);
+}
+
+void print_list(queue *head) {
+	queue* current = head;
+	while(current != NULL) {
+		proc process = current->process;
+		print_process(&process);
+		current = current->next;
+	}
+}
+
+void read_file(queue **head){
 	FILE *file = fopen("processes.txt", "r");	
+	char line[256];	
+
 	if (file == NULL) {
 		printf("error opening file.\n");
-		return 1;
+		exit(0);
 	}
-	
-	queue* head = NULL;
-	char line[256];
-	
+
 	// Create an instance of the proc struct and add it to the
 	// linked list using the push() function.
-	
 	while (fgets(line, sizeof(line), file)) {
 		proc new_process;
 		sscanf(line, "%[^,],%d,%d,%d", new_process.name, &new_process.priority, 
 		&new_process.pid, &new_process.runtime);
-		push(new_process, &head);
-		}
-		
+		push(new_process, head);
+	}
+
 	fclose(file);
+}
+
+int main()
+{	
+	queue *head = NULL;
 	
-	// After all processes have been added to linked list, iterate through and print
-	// name, priority, pid, runtime of each process 
-	
+	read_file(&head);
+	print_list(head);
+
+	// Free allocated memory
 	queue* current = head;
 	while (current != NULL) {
-		printf("Name: %s, Priority: %d, PID: %d, Runtime: %d\n", current->process.name,
-		current->process.priority, current->process.pid, current->process.runtime);
+		queue* temp = current;
 		current = current->next;
+		free(temp);
 	}
 	
 	return 0;
