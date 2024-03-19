@@ -9,7 +9,7 @@
 |:---:|:---:|
 | Dmitri Rios Nadeau | 100783206 |
 | Noah Toma | 100825559 |
-| Rolf-Jaden | 100845721 |
+| Rolf-Jaden Sibal | 100845721 |
 
 ## [Tutorial 4 - Jeopardy](/Tutorial_4)
 Status: Complete ✅
