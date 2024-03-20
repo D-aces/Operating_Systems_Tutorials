@@ -1,7 +1,7 @@
 # Makefile for all T8 programs
 
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -pedantic
+CFLAGS = -Wall -Wextra
 
 all: q1.o q2.o
 
