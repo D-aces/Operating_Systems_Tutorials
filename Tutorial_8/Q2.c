@@ -108,10 +108,7 @@ void execute_process(struct proc* process, int* avail_mem)//Execute process
         process->address = start_address;//Set process address
         process->pid = fork();//Fork process
         if (process->pid == 0)//If child process
-        {
-            execl("./sigtrap", "sigtrap", NULL);//Execute sigtrap
             exit(0);//Exit process
-        }
         else//If parent process
         {
             for (int i = 0; i < process->memory; i++)//Iterate through memory
@@ -137,10 +134,7 @@ void suspend_process(struct proc* process)//Suspend process
         process->pid = fork();//Fork process
         
         if (process->pid == 0)//If child process
-        {
-            execl("./sigtrap", "sigtrap", NULL);//Execute sigtrap
             exit(0);//Exit process
-        }
     }
     
     sleep(1);//Run for 1 second
@@ -224,3 +218,4 @@ int main()//Main function
 
     return 0;//Return 0
 }
+
