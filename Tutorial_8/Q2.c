@@ -108,6 +108,8 @@ void execute_process(struct proc* process, int* avail_mem)//Execute process
         process->address = start_address;//Set process address
         process->pid = fork();//Fork process
         if (process->pid == 0)//If child process
+            exit(0);//Exit process
+        else//If parent process
         {
             for (int i = 0; i < process->memory; i++)//Iterate through memory
                 avail_mem[(start_address + i) % MEMORY] = 1;//Set memory to unavailable
