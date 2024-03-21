@@ -24,7 +24,7 @@ Status: Complete ✅
 Status: Complete ✅
 
 ## [Tutorial 8 - Signals and Data Structures II](/Tutorial_8)
-Status: ongoing ❌
+Status: Complete ✅
 
 </div>
 <hr>
